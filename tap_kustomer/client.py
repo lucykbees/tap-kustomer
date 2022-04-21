@@ -94,12 +94,15 @@ def raise_for_error(response):
 
 
 class KustomerClient():
-    def __init__(self, token, user_agent=None):
+    def __init__(self, token, user_agent=None, site=None):
         self.__token = token
         self.__user_agent = user_agent
         self.__session = requests.Session()
         self.__verified = False
-        self.base_url = 'https://api.kustomerapp.com/{}'.format(API_VERSION)
+        if site:
+            self.base_url = 'https://{}.api.kustomerapp.com/{}'.format(site, API_VERSION)
+        else:
+            self.base_url = 'https://api.kustomerapp.com/{}'.format(API_VERSION)
 
     def __enter__(self):
         self.__verified = self.check_token()
